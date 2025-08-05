@@ -1,0 +1,30 @@
+services:
+  api-tags-compound:
+    image: api-tags-compound
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - DB_USER=sa
+      - DB_PASS=p$th@2024**
+      - DB_SERVER=PSTH-SRRYAPP04
+      - DB_NAME=DB_COMPOUND
+      - PORT=3420
+    networks:
+      - api-tags-compound-network
+    restart: always
+  nginx-tag-compound:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - api-tags-compound
+    ports:
+      - "3420:3420"
+    restart: always
+    networks:
+      - tags-compound-network
+
+networks:
+  tags-compound-network:
+    driver: bridge
