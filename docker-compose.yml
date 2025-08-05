@@ -11,7 +11,7 @@ services:
       - DB_NAME=DB_COMPOUND
       - PORT=3420
     networks:
-      - api-tags-compound-network
+      - tags-compound-network
     restart: always
   nginx-tag-compound:
     image: nginx:latest
