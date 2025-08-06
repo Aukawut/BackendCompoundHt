@@ -152,8 +152,9 @@ func SaveTags(c *fiber.Ctx) error {
 
 			newTag := fmt.Sprintf(`%s|%s`, poNo, tag.TagNo)
 
-			_, errInsert := db.Exec(`INSERT INTO [dbo].[TBL_TAGS] ([LOT_NO],[OLD_TAG],[TAG_NO],[PART_NO],[QTY],[BATCH],[BASKET],[PO_NO],[ACTIVE],[CREATED_AT],[CREATED_BY],[LOCATION]) 
-			VALUES (@lotNo,@oldTag,@newTagNo,@partNo,@qty,@batch,@basket,@po,'Y',GETDATE(),@actionBy,@location)`,
+			_, errInsert := db.Exec(`INSERT INTO [dbo].[TBL_TAGS] ([ORIGINAL_TAG],[LOT_NO],[OLD_TAG],[TAG_NO],[PART_NO],[QTY],[BATCH],[BASKET],[PO_NO],[ACTIVE],[CREATED_AT],[CREATED_BY],[LOCATION]) 
+			VALUES (@originalTag,@lotNo,@oldTag,@newTagNo,@partNo,@qty,@batch,@basket,@po,'Y',GETDATE(),@actionBy,@location)`,
+				sql.Named("originalTag", tag.OriginalTag),
 				sql.Named("lotNo", tag.Lot),
 				sql.Named("oldTag", tag.TagNo),
 				sql.Named("newTagNo", newTag),
@@ -232,7 +233,7 @@ func GetCompoundTagDetail(c *fiber.Ctx) error {
 	if strings.Contains(tagNo, "|") {
 		stmt += ` WHERE [TAG_NO] = @tagNo`
 	} else {
-		stmt += ` WHERE [OLD_TAG] = @tagNo`
+		stmt += ` WHERE [ORIGINAL_TAG] = @tagNo AND [ACTIVE] = 'Y'`
 	}
 
 	rows, errQuery := db.Query(stmt, sql.Named("tagNo", tagNo))

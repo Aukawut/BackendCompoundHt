@@ -1,12 +1,13 @@
 package model
 
 type Tags struct {
-	TagNo  string `json:"tagNo"`
-	PartNo string `json:"partNo"`
-	Qty    any    `json:"qty"`
-	Batch  int    `json:"batch"`
-	Basket int    `json:"basket"`
-	Lot    string `json:"lotNo"`
+	TagNo       string `json:"tagNo"`
+	PartNo      string `json:"partNo"`
+	Qty         any    `json:"qty"`
+	Batch       int    `json:"batch"`
+	Basket      int    `json:"basket"`
+	Lot         string `json:"lotNo"`
+	OriginalTag string `json:"originalTag"`
 }
 
 type SaveTagsBody struct {
